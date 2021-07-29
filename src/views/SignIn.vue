@@ -6,7 +6,7 @@
       </div>
 
       <div class="form-label-group mb-2">
-        <label for="email" class="mb-1">email</label>
+        <label for="email" class="mb-1">Email</label>
         <input
           id="email"
           v-model="email"
