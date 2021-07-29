@@ -2,7 +2,7 @@
   <div class="container py-5">
     <form class="w-100 d-grid gap-2" @submit.prevent.stop="handleSubmit">
       <div class="text-center mb-4">
-        <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
       </div>
 
       <div class="form-label-group mb-2">
@@ -40,7 +40,7 @@
 
       <div class="text-center mb-3">
         <p>
-          <router-link to="/signup"> Sign Up </router-link>
+          <router-link to="/signin">Sign In</router-link>
         </p>
       </div>
 
