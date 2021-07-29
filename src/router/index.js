@@ -24,6 +24,11 @@ const routes = [
     component: Restaurants
   },
   {
+    path: '/restaurants/feeds',
+    name: 'restaurants-feeds',
+    component: () => import('../views/RestaurantsFeeds.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound
