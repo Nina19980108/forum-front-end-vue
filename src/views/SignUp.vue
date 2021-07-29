@@ -6,7 +6,22 @@
       </div>
 
       <div class="form-label-group mb-2">
-        <label for="email" class="mb-1">email</label>
+        <label for="name" class="mb-1">Name</label>
+        <input
+          id="name"
+          v-model="name"
+          name="name"
+          type="text"
+          class="form-control"
+          placeholder="name"
+          autocomplete="name"
+          required
+          autofocus
+        />
+      </div>
+
+      <div class="form-label-group mb-2">
+        <label for="email" class="mb-1">Email</label>
         <input
           id="email"
           v-model="email"
@@ -34,6 +49,20 @@
         />
       </div>
 
+      <div class="form-label-group mb-3">
+        <label for="password-check" class="mb-1">Password Check</label>
+        <input
+          id="password-check"
+          v-model="passwordCheck"
+          name="password-check"
+          type="password"
+          class="form-control"
+          placeholder="Password Check"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
       <button class="btn btn-lg btn-primary d-block mb-3" type="submit">
         Submit
       </button>
@@ -53,15 +82,19 @@
 export default {
   data() {
     return {
+      name: "",
       email: "",
       password: "",
+      passwordCheck: "",
     };
   },
   methods: {
     handleSubmit() {
       const data = JSON.stringify({
+        name: this.name,
         email: this.email,
         password: this.password,
+        passwordCheck: this.passwordCheck,
       });
       console.log("data", data);
     },
