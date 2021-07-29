@@ -30,8 +30,13 @@ const routes = [
   },
   {
     path: '/restaurants/top',
-    name: 'restaurants-top',
+    name: 'users-top',
     component: () => import('../views/RestaurantsTop.vue')
+  },
+  {
+    path: '/users/top',
+    name: 'restaurants-top',
+    component: () => import('../views/UsersTop.vue')
   },
   {
     path: '*',
