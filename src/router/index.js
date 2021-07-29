@@ -9,6 +9,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    name: 'root',
+    redirect: '/restaurants'
+  },
+  {
     path: '/signin',
     name: 'sign-in',
     component: SignIn
