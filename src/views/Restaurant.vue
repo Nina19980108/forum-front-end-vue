@@ -5,12 +5,15 @@
     <RestaurantDetail :initial-restaurant="restaurant" />
     <hr />
     <!-- 餐廳評論 RestaurantComments -->
+    <RestaurantComment :restaurant-comments="restaurantComments" />
     <!-- 新增評論 CreateComment -->
   </div>
 </template>
 
 <script>
 import RestaurantDetail from "./../components/RestaurantDetail.vue";
+import RestaurantComment from "./../components/RestaurantComment.vue";
+
 const dummyData = {
   restaurant: {
     id: 1,
@@ -100,6 +103,7 @@ export default {
   },
   components: {
     RestaurantDetail,
+    RestaurantComment,
   },
 };
 </script>
