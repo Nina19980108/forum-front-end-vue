@@ -33,10 +33,20 @@
       <p>{{ restaurant.description }}</p>
       <a class="btn btn-primary btn-border me-2" href="#">Dashboard</a>
 
-      <button type="button" class="btn btn-danger btn-border me-2">
+      <button
+        type="button"
+        class="btn btn-danger btn-border me-2"
+        @click.stop.prevent="removeFavorite"
+        v-if="restaurant.isFavorite"
+      >
         移除最愛
       </button>
-      <button type="button" class="btn btn-primary btn-border me-2">
+      <button
+        type="button"
+        class="btn btn-primary btn-border me-2"
+        @click.stop.prevent="addFavorite"
+        v-if="!restaurant.isFavorite"
+      >
         加到最愛
       </button>
       <button type="button" class="btn btn-danger like me-2">Unlike</button>
@@ -57,6 +67,20 @@ export default {
     return {
       restaurant: this.initialRestaurant,
     };
+  },
+  methods: {
+    addFavorite() {
+      this.restaurant = {
+        ...this.restaurant,
+        isFavorite: true,
+      };
+    },
+    removeFavorite() {
+      this.restaurant = {
+        ...this.restaurant,
+        isFavorite: false,
+      };
+    },
   },
 };
 </script>
