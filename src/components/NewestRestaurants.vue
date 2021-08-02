@@ -26,18 +26,13 @@ small {
 </style>
 
 <script>
-import momemt from "moment";
+import { fromNowFilter } from "./../utils/mixins";
 export default {
+  mixins: [fromNowFilter],
   props: {
     restaurants: {
       type: Array,
       required: true,
-    },
-  },
-  filters: {
-    fromNow(datetime) {
-      if (!datetime) return "-";
-      return momemt(datetime).fromNow();
     },
   },
 };
