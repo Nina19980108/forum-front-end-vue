@@ -14,7 +14,7 @@
           </h3>
           <p>{{ comment.text }}</p>
           <figcaption class="blockquote-footer">
-            {{ comment.createdAt }}
+            {{ comment.createdAt | fromNow }}
           </figcaption>
         </div>
         <button type="button" class="btn btn-danger" v-if="currentUser.isAdmin">
@@ -28,7 +28,8 @@
 </template>
 
 <script>
-// import moment from "moment";
+import moment from "moment";
+
 const dummyUser = {
   currentUser: {
     id: 1,
@@ -51,6 +52,12 @@ export default {
     return {
       currentUser: dummyUser.currentUser,
     };
+  },
+  filters: {
+    fromNow(datetime) {
+      if (!datetime) return "-";
+      return moment(datetime).fromNow();
+    },
   },
 };
 </script>
