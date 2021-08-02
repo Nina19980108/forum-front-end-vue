@@ -17,7 +17,9 @@
             {{ comment.createdAt }}
           </figcaption>
         </div>
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger" v-if="currentUser.isAdmin">
+          Delete
+        </button>
       </div>
 
       <hr />
@@ -27,6 +29,16 @@
 
 <script>
 // import moment from "moment";
+const dummyUser = {
+  currentUser: {
+    id: 1,
+    name: "管理者",
+    email: "root@example.com",
+    image: "https://i.pravatar.cc/300",
+    isAdmin: true,
+  },
+  isAuthenticated: true,
+};
 
 export default {
   props: {
@@ -34,6 +46,11 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data() {
+    return {
+      currentUser: dummyUser.currentUser,
+    };
   },
 };
 </script>
