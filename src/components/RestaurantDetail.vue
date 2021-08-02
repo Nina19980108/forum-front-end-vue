@@ -49,8 +49,22 @@
       >
         加到最愛
       </button>
-      <button type="button" class="btn btn-danger like me-2">Unlike</button>
-      <button type="button" class="btn btn-primary like me-2">Like</button>
+      <button
+        type="button"
+        class="btn btn-danger like me-2"
+        @click.stop.prevent="unLike"
+        v-if="restaurant.isLiked"
+      >
+        Unlike
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary like me-2"
+        @click.stop.prevent="like"
+        v-if="!restaurant.isLiked"
+      >
+        Like
+      </button>
     </div>
   </div>
 </template>
@@ -79,6 +93,18 @@ export default {
       this.restaurant = {
         ...this.restaurant,
         isFavorite: false,
+      };
+    },
+    like() {
+      this.restaurant = {
+        ...this.restaurant,
+        isLiked: true,
+      };
+    },
+    unLike() {
+      this.restaurant = {
+        ...this.restaurant,
+        isLiked: false,
       };
     },
   },
