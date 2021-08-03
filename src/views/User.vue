@@ -1,7 +1,13 @@
 <template>
   <div class="album py-5 bg-light">
     <div class="container">
-      <UserProfileCard />
+      <UserProfileCard
+        :user="user"
+        :commentsLength="userComments.length"
+        :restaurantsLength="userFavoritedRestaurants.length"
+        :followersLength="userFollowers.length"
+        :followingsLength="userFollowings.length"
+      />
       <div class="row">
         <div class="col-md-4">
           <UserFollowingsCard />
@@ -1298,7 +1304,6 @@ export default {
       userFavoritedRestaurants: [],
       userFollowers: [],
       userFollowings: [],
-      isFollowed: false,
     };
   },
   created() {
@@ -1320,7 +1325,6 @@ export default {
       this.userFavoritedRestaurants = dummyData.profile.FavoritedRestaurants;
       this.userFollowers = dummyData.profile.Followers;
       this.userFollowings = dummyData.profile.Followings;
-      this.isFollowed = dummyData.profile.isFollowed;
     },
   },
   components: {
