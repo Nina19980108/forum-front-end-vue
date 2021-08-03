@@ -1,22 +1,33 @@
 <template>
   <div class="card">
-    <div class="card-header"><strong>38</strong> 已評論餐廳</div>
+    <div class="card-header">
+      <strong>{{ userComments.length }}</strong> 已評論餐廳
+    </div>
     <div class="card-body">
-      <a href="/restaurants/4">
+      <router-link
+        class="m-2"
+        v-for="comment in userComments"
+        :key="comment.id"
+        :to="{ name: 'restaurant', params: { id: comment.RestaurantId } }"
+      >
         <img
-        src=https://loremflickr.com/320/240/restaurant,food/?random&#x3D;42.58020446504014
-        width="60" height="60" class="avatar" />
-      </a>
-      <a href="/restaurants/6">
-        <img
-        src=https://loremflickr.com/320/240/restaurant,food/?random&#x3D;12.190112895855831
-        width="60" height="60" class="avatar" />
-      </a>
-      <a href="/restaurants/7">
-        <img
-        src=https://loremflickr.com/320/240/restaurant,food/?random&#x3D;26.38207413310656
-        width="60" height="60" class="avatar" />
-      </a>
+          :src="comment.Restaurant.image"
+          width="60"
+          height="60"
+          class="avatar mb-2"
+        />
+      </router-link>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    userComments: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>

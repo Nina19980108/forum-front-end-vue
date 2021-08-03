@@ -15,7 +15,7 @@
           <UserFollowersCard :userFollowers="userFollowers" />
         </div>
         <div class="col-md-8">
-          <UserCommentsCard />
+          <UserCommentsCard :userComments="userComments" />
           <br />
           <UserFavoritedRestaurantsCard />
         </div>
