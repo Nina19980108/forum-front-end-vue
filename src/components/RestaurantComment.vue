@@ -17,7 +17,12 @@
             {{ comment.createdAt | fromNow }}
           </figcaption>
         </div>
-        <button type="button" class="btn btn-danger" v-if="currentUser.isAdmin">
+        <button
+          type="button"
+          class="btn btn-danger"
+          v-if="currentUser.isAdmin"
+          @click.stop.prevent="handleDeleteButtonClick(comment.id)"
+        >
           Delete
         </button>
       </div>
@@ -53,6 +58,11 @@ export default {
     return {
       currentUser: dummyUser.currentUser,
     };
+  },
+  methods: {
+    handleDeleteButtonClick(commentId) {
+      this.$emit("after-delete-btn", commentId);
+    },
   },
 };
 </script>

@@ -5,7 +5,10 @@
     <RestaurantDetail :initial-restaurant="restaurant" />
     <hr />
     <!-- 餐廳評論 RestaurantComments -->
-    <RestaurantComment :restaurant-comments="restaurantComments" />
+    <RestaurantComment
+      :restaurant-comments="restaurantComments"
+      @after-delete-btn="afterDeleteBtn"
+    />
     <!-- 新增評論 CreateComment -->
   </div>
 </template>
@@ -35,6 +38,44 @@ const dummyData = {
     FavoritedUsers: [],
     LikedUsers: [],
     Comments: [
+      {
+        id: 1,
+        text: "Quos asperiores in nostrum cupiditate excepturi aspernatur.",
+        UserId: 2,
+        RestaurantId: 1,
+        createdAt: "2019-06-22T09:00:43.000Z",
+        updatedAt: "2019-06-22T09:00:43.000Z",
+        User: {
+          id: 2,
+          name: "user1",
+          email: "user1@example.com",
+          password:
+            "$2a$10$0ISHJI48xu/VRNVmEeycFe8v5ChyT305f8KaJVIhumu7M/eKAikkm",
+          image: "https://i.imgur.com/XooCt5K.png",
+          isAdmin: false,
+          createdAt: "2019-06-22T09:00:43.000Z",
+          updatedAt: "2019-06-23T01:16:31.000Z",
+        },
+      },
+      {
+        id: 2,
+        text: "Quos asperiores in nostrum cupiditate excepturi aspernatur.",
+        UserId: 2,
+        RestaurantId: 1,
+        createdAt: "2019-06-22T09:00:43.000Z",
+        updatedAt: "2019-06-22T09:00:43.000Z",
+        User: {
+          id: 2,
+          name: "user1",
+          email: "user1@example.com",
+          password:
+            "$2a$10$0ISHJI48xu/VRNVmEeycFe8v5ChyT305f8KaJVIhumu7M/eKAikkm",
+          image: "https://i.imgur.com/XooCt5K.png",
+          isAdmin: false,
+          createdAt: "2019-06-22T09:00:43.000Z",
+          updatedAt: "2019-06-23T01:16:31.000Z",
+        },
+      },
       {
         id: 3,
         text: "Quos asperiores in nostrum cupiditate excepturi aspernatur.",
@@ -99,6 +140,11 @@ export default {
         isLiked: dummyData.restaurant.isLiked,
       };
       this.restaurantComments = dummyData.restaurant.Comments;
+    },
+    afterDeleteBtn(commentId) {
+      this.restaurantComments = this.restaurantComments.filter(
+        (comment) => comment.id !== commentId
+      );
     },
   },
   components: {
