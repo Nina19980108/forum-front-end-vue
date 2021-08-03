@@ -1,30 +1,15 @@
 <template>
   <div class="album py-5 bg-light">
     <div class="container">
-      <!--  user card -->
+      <!--  user profile card -->
       <UserProfileCard />
-      <!-- // -->
       <div class="row">
         <div class="col-md-4">
-          <!-- followings -->
-          <div class="card">
-            <div class="card-header">
-              <strong>1</strong> followings (追蹤者)
-            </div>
-            <div class="card-body">
-              <a href="/users/1">
-                <img
-                  src="https://i.imgur.com/pU2mGov.png"
-                  width="60"
-                  height="60"
-                  class="avatar"
-                />
-              </a>
-            </div>
-          </div>
+          <!-- user followings card -->
+          <UserFollowingsCard />
           <!-- // -->
           <br />
-          <!-- followers -->
+          <!-- user followers card -->
           <div class="card">
             <div class="card-header"><strong>1</strong> followers (追隨者)</div>
             <div class="card-body">
@@ -87,9 +72,12 @@
 
 <script>
 import UserProfileCard from "./../components/UserProfileCard.vue";
+import UserFollowingsCard from "./../components/UserFollowingsCard.vue";
+
 export default {
   components: {
     UserProfileCard,
+    UserFollowingsCard,
   },
 };
 </script>
