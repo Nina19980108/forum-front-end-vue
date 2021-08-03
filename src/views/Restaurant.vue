@@ -10,12 +10,17 @@
       @after-delete-btn="afterDeleteBtn"
     />
     <!-- 新增評論 CreateComment -->
+    <CreateComment
+      :restaurantId="restaurant.id"
+      @after-create-comment="afterCreateComment"
+    />
   </div>
 </template>
 
 <script>
 import RestaurantDetail from "./../components/RestaurantDetail.vue";
 import RestaurantComment from "./../components/RestaurantComment.vue";
+import CreateComment from "./../components/CreateComment.vue";
 
 const dummyData = {
   restaurant: {
@@ -100,6 +105,16 @@ const dummyData = {
   isFavorited: false,
   isLiked: false,
 };
+const dummyUser = {
+  currentUser: {
+    id: 1,
+    name: "管理者",
+    email: "root@example.com",
+    image: "https://i.pravatar.cc/300",
+    isAdmin: true,
+  },
+  isAuthenticated: true,
+};
 export default {
   data() {
     return {
@@ -116,6 +131,7 @@ export default {
         isLiked: false,
       },
       restaurantComments: [],
+      currentUser: dummyUser.currentUser,
     };
   },
   created() {
@@ -146,10 +162,25 @@ export default {
         (comment) => comment.id !== commentId
       );
     },
+    afterCreateComment(payload) {
+      const { commentId, restaurantId, text } = payload;
+      this.restaurantComments.push({
+        id: commentId,
+        text,
+        RestaurantId: restaurantId,
+        createdAt: new Date(),
+        UserId: this.currentUser.id,
+        User: {
+          id: this.currentUser.id,
+          name: this.currentUser.name,
+        },
+      });
+    },
   },
   components: {
     RestaurantDetail,
     RestaurantComment,
+    CreateComment,
   },
 };
 </script>
