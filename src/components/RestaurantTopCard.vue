@@ -17,8 +17,22 @@
           </p>
           <a href="#" class="btn btn-primary me-2">Show</a>
 
-          <button type="button" class="btn btn-danger me-2">移除最愛</button>
-          <button type="button" class="btn btn-primary">加到最愛</button>
+          <button
+            type="button"
+            class="btn btn-danger me-2"
+            v-if="restaurant.isFavorited"
+            @click.stop.prevent="deleteFavorite"
+          >
+            移除最愛
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            v-if="!restaurant.isFavorited"
+            @click.stop.prevent="addFavorite"
+          >
+            加到最愛
+          </button>
         </div>
       </div>
     </div>
@@ -28,9 +42,28 @@
 <script>
 export default {
   props: {
-    restaurant: {
+    initialRestaurant: {
       type: Object,
       required: true,
+    },
+  },
+  data() {
+    return {
+      restaurant: this.initialRestaurant,
+    };
+  },
+  methods: {
+    addFavorite() {
+      this.restaurant = {
+        ...this.restaurant,
+        isFavorited: true,
+      };
+    },
+    deleteFavorite() {
+      this.restaurant = {
+        ...this.restaurant,
+        isFavorited: false,
+      };
     },
   },
 };

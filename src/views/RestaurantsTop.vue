@@ -6,7 +6,7 @@
     <RestaurantTopCard
       v-for="restaurant in topRestaurants"
       :key="restaurant.id"
-      :restaurant="restaurant"
+      :initial-restaurant="restaurant"
     />
   </div>
 </template>
