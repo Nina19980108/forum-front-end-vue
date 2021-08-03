@@ -1,6 +1,8 @@
 <template>
   <div class="card">
-    <div class="card-header"><strong>1</strong> followings (追蹤者)</div>
+    <div class="card-header">
+      <strong>{{ userFollowings.length }}</strong> followings (追蹤者)
+    </div>
     <div class="card-body">
       <router-link
         class="m-1"
