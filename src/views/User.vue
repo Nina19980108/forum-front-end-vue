@@ -7,23 +7,9 @@
         <div class="col-md-4">
           <!-- user followings card -->
           <UserFollowingsCard />
-          <!-- // -->
           <br />
           <!-- user followers card -->
-          <div class="card">
-            <div class="card-header"><strong>1</strong> followers (追隨者)</div>
-            <div class="card-body">
-              <a href="/users/1">
-                <img
-                  src="https://i.imgur.com/pU2mGov.png"
-                  width="60"
-                  height="60"
-                  class="avatar"
-                />
-              </a>
-            </div>
-          </div>
-          <!-- // -->
+          <UserFollowersCard />
         </div>
         <div class="col-md-8">
           <!-- 已評論餐廳 -->
@@ -73,11 +59,13 @@
 <script>
 import UserProfileCard from "./../components/UserProfileCard.vue";
 import UserFollowingsCard from "./../components/UserFollowingsCard.vue";
+import UserFollowersCard from "./../components/UserFollowersCard.vue";
 
 export default {
   components: {
     UserProfileCard,
     UserFollowingsCard,
+    UserFollowersCard,
   },
 };
 </script>
