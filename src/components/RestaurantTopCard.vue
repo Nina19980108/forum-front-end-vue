@@ -3,18 +3,17 @@
     <div class="row no-gutters">
       <div class="col-md-4">
         <a href="#">
-          <img
-            class="card-img"
-            src="https://loremflickr.com/320/240/food,dessert,restaurant/?random=2"
-          />
+          <img class="card-img" :src="restaurant.image" />
         </a>
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">Mrs. Mckenzie Johnston</h5>
-          <span class="badge badge-secondary">收藏數：0</span>
+          <h5 class="card-title">{{ restaurant.name }}</h5>
+          <span class="badge bg-secondary"
+            >收藏數：{{ restaurant.FavoritedUsers.length }}</span
+          >
           <p class="card-text">
-            Quia pariatur perferendis architecto tenetur omnis
+            {{ restaurant.description }}
           </p>
           <a href="#" class="btn btn-primary me-2">Show</a>
 
@@ -25,3 +24,14 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    restaurant: {
+      type: Object,
+      required: true,
+    },
+  },
+};
+</script>
