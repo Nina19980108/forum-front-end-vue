@@ -17,7 +17,9 @@
         <div class="col-md-8">
           <UserCommentsCard :userComments="userComments" />
           <br />
-          <UserFavoritedRestaurantsCard />
+          <UserFavoritedRestaurantsCard
+            :userFavoritedRestaurants="userFavoritedRestaurants"
+          />
         </div>
       </div>
     </div>
