@@ -19,7 +19,7 @@
         <div class="ml-auto d-flex align-items-center">
           <!-- is user is admin -->
           <router-link
-            to="#"
+            :to="{ name: 'admin-restaurants' }"
             class="text-white me-3"
             v-if="currentUser.isAdmin"
           >
