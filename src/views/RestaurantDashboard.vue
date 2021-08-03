@@ -146,10 +146,12 @@ export default {
     return { restaurant: [] };
   },
   created() {
-    this.fetchRestaurant();
+    const { id: restaurantId } = this.$route.params;
+    this.fetchRestaurant(restaurantId);
   },
   methods: {
-    fetchRestaurant() {
+    fetchRestaurant(restaurantId) {
+      console.log("dashboard restaurantId", restaurantId);
       this.restaurant = dummyData.restaurant;
     },
   },
