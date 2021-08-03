@@ -15,7 +15,12 @@
           <p class="card-text">
             {{ restaurant.description }}
           </p>
-          <a href="#" class="btn btn-primary me-2">Show</a>
+          <router-link
+            class="btn btn-primary me-2"
+            :to="{ name: 'restaurant', params: { id: restaurant.id } }"
+          >
+            Show
+          </router-link>
 
           <button
             type="button"
