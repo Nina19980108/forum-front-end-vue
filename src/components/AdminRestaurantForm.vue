@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.stop.prevent="handleSubmit">
     <div class="mb-3">
       <label for="name" class="form-label">Name</label>
       <input
@@ -81,12 +81,20 @@
 
     <div class="mb-3">
       <label for="formFile" class="form-label">Image</label>
+      <img
+        v-if="restaurant.image"
+        :src="restaurant.image"
+        class="d-block img-thumbnail mb-3"
+        width="200"
+        height="200"
+      />
       <input
         class="form-control"
         id="image"
         type="file"
         name="image"
         accept="image/*"
+        @change="handleFileChange"
       />
     </div>
 
@@ -144,6 +152,19 @@ export default {
   methods: {
     fetchCategories() {
       this.categories = dummyData.categories;
+    },
+    handleFileChange(e) {
+      const { files } = e.target;
+      if (files.length === 0) {
+        return (this.restaurant.image = "");
+      }
+      const imgURL = window.URL.createObjectURL(files[0]);
+      return (this.restaurant.image = imgURL);
+    },
+    handleSubmit(e) {
+      const form = e.target;
+      const formData = new FormData(form);
+      this.$emit("after-submit", formData);
     },
   },
 };
