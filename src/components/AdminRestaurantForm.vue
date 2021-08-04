@@ -148,6 +148,10 @@ export default {
   },
   created() {
     this.fetchCategories();
+    this.restaurant = {
+      ...this.restaurant,
+      ...this.initialRestaurant,
+    };
   },
   methods: {
     fetchCategories() {
@@ -165,6 +169,20 @@ export default {
       const form = e.target;
       const formData = new FormData(form);
       this.$emit("after-submit", formData);
+    },
+  },
+  props: {
+    initialRestaurant: {
+      type: Object,
+      default: () => ({
+        name: "",
+        categoryId: "",
+        tel: "",
+        address: "",
+        description: "",
+        image: "",
+        openingHours: "",
+      }),
     },
   },
 };
