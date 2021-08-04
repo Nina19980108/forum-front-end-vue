@@ -44,7 +44,13 @@
           </td>
           <td>
             <button type="button" class="btn btn-link me-2">Edit</button>
-            <button type="button" class="btn btn-link me-2">Delete</button>
+            <button
+              @click.stop.prevent="deleteCategory(category.id)"
+              type="button"
+              class="btn btn-link me-2"
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
@@ -111,6 +117,11 @@ export default {
         name: this.newCategoryName,
       });
       this.newCategoryName = "";
+    },
+    deleteCategory(categoryId) {
+      this.categories = this.categories.filter(
+        (category) => category.id !== categoryId
+      );
     },
   },
 };
