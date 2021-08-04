@@ -8,12 +8,19 @@
         <div class="col-md-4">
           <input
             type="text"
+            v-model="newCategoryName"
             class="form-control"
             placeholder="新增餐廳類別..."
           />
         </div>
         <div class="col-auto">
-          <button type="button" class="btn btn-primary">新增</button>
+          <button
+            @click.stop.prevent="createCategory"
+            type="button"
+            class="btn btn-primary"
+          >
+            新增
+          </button>
         </div>
       </div>
     </form>
@@ -30,14 +37,14 @@
           <th scope="row">
             {{ category.id }}
           </th>
-          <td class="position-relative">
+          <td>
             <div class="category-name">
               {{ category.name }}
             </div>
           </td>
-          <td class="d-flex justify-content-between">
-            <button type="button" class="btn btn-link mr-2">Edit</button>
-            <button type="button" class="btn btn-link mr-2">Delete</button>
+          <td>
+            <button type="button" class="btn btn-link me-2">Edit</button>
+            <button type="button" class="btn btn-link me-2">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -47,6 +54,7 @@
 
 <script>
 import AdminNav from "@/components/AdminNav";
+import { v4 as uuidv4 } from "uuid";
 //  2. 定義暫時使用的資料
 const dummyData = {
   categories: [
@@ -85,6 +93,7 @@ export default {
   data() {
     return {
       categories: [],
+      newCategoryName: "",
     };
   },
   // 5. 調用 `fetchCategories` 方法
@@ -95,6 +104,13 @@ export default {
     // 4. 定義 `fetchCategories` 方法，把 `dummyData` 帶入 Vue 物件
     fetchCategories() {
       this.categories = dummyData.categories;
+    },
+    createCategory() {
+      this.categories.push({
+        id: uuidv4(),
+        name: this.newCategoryName,
+      });
+      this.newCategoryName = "";
     },
   },
 };
