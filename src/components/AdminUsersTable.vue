@@ -14,20 +14,22 @@
         <td>{{ user.email }}</td>
         <td>{{ user.name }}</td>
         <td>
-          <button v-if="user.isAdmin" type="button" class="btn btn-link">
+          <button
+            v-if="user.isAdmin"
+            @click.stop.prevent="toggleAdmin(user.id)"
+            type="button"
+            class="btn btn-link"
+          >
             set as user
           </button>
-          <button v-else type="button" class="btn btn-link">
+          <button
+            v-else
+            @click.stop.prevent="toggleAdmin(user.id)"
+            type="button"
+            class="btn btn-link"
+          >
             set as admin
           </button>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>user1@example.com</td>
-        <td>user</td>
-        <td>
-          <button type="button" class="btn btn-link">set as admin</button>
         </td>
       </tr>
     </tbody>
@@ -101,6 +103,17 @@ export default {
   methods: {
     fetchUsers() {
       this.users = dummyData.users;
+    },
+    toggleAdmin(userId) {
+      this.users = this.users.map((user) => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            isAdmin: !user.isAdmin,
+          };
+        }
+        return user;
+      });
     },
   },
 };
