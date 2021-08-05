@@ -32,7 +32,11 @@
         />
       </div>
 
-      <button class="btn btn-lg btn-primary d-block mb-3" type="submit">
+      <button
+        :disabled="isProcessing"
+        class="btn btn-lg btn-primary d-block mb-3"
+        type="submit"
+      >
         Submit
       </button>
 
@@ -56,6 +60,7 @@ export default {
     return {
       email: "",
       password: "",
+      isProcessing: false,
     };
   },
   methods: {
@@ -67,6 +72,7 @@ export default {
         });
         return;
       }
+      this.isProcessing = true;
       authorization
         .signIn({
           email: this.email,
@@ -86,6 +92,7 @@ export default {
             icon: "warning",
             title: "請確認您輸入了正確的帳號密碼",
           });
+          this.isProcessing = false;
           console.log("signin error", error);
         });
     },
