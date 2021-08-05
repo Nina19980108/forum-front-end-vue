@@ -15,16 +15,16 @@
         <td>{{ user.name }}</td>
         <td>
           <button
-            v-if="user.isAdmin"
-            @click.stop.prevent="toggleAdmin(user.id)"
+            v-if="user.isAdmin && user.id !== currentUser.id"
+            @click.stop.prevent="toggleUserRole(user.id)"
             type="button"
             class="btn btn-link"
           >
             set as user
           </button>
           <button
-            v-else
-            @click.stop.prevent="toggleAdmin(user.id)"
+            v-if="!user.isAdmin"
+            @click.stop.prevent="toggleUserRole(user.id)"
             type="button"
             class="btn btn-link"
           >
@@ -90,11 +90,22 @@ const dummyData = {
       updatedAt: "2021-07-16T03:24:28.000Z",
     },
   ],
+  currentUser: {
+    id: 1,
+    name: "root123",
+    email: "root@example.com",
+    password: "$2a$10$K2x6pQHkzPEKzw86x8Tc0.bfW7QVdA2Ls4AXBFkFu7xHG3UgA4Mli",
+    isAdmin: true,
+    image: "https://i.imgur.com/pU2mGov.png",
+    createdAt: "2021-07-05T09:58:39.000Z",
+    updatedAt: "2021-07-15T09:17:49.000Z",
+  },
 };
 export default {
   data() {
     return {
       users: [],
+      currentUser: {},
     };
   },
   created() {
@@ -103,8 +114,9 @@ export default {
   methods: {
     fetchUsers() {
       this.users = dummyData.users;
+      this.currentUser = dummyData.currentUser;
     },
-    toggleAdmin(userId) {
+    toggleUserRole(userId) {
       this.users = this.users.map((user) => {
         if (user.id === userId) {
           return {
