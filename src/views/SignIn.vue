@@ -15,7 +15,6 @@
           class="form-control"
           placeholder="email"
           autocomplete="username"
-          required
           autofocus
         />
       </div>
@@ -30,7 +29,6 @@
           class="form-control"
           placeholder="Password"
           autocomplete="current-password"
-          required
         />
       </div>
 
@@ -51,6 +49,8 @@
 
 <script>
 import authorization from "./../apis/authorization";
+import { Toast } from "./../utils/helpers";
+
 export default {
   data() {
     return {
@@ -60,6 +60,13 @@ export default {
   },
   methods: {
     handleSubmit() {
+      if (!this.email || !this.password) {
+        Toast.fire({
+          icon: "warning",
+          title: "請填入 email 和 password",
+        });
+        return;
+      }
       authorization
         .signIn({
           email: this.email,
@@ -67,8 +74,19 @@ export default {
         })
         .then((response) => {
           const { data } = response;
+          if (data.status !== "success") {
+            throw new Error(data.message);
+          }
           localStorage.setItem("token", data.token);
           this.$router.push("/restaurants");
+        })
+        .catch((error) => {
+          this.password = "";
+          Toast.fire({
+            icon: "warning",
+            title: "請確認您輸入了正確的帳號密碼",
+          });
+          console.log("signin error", error);
         });
     },
   },
