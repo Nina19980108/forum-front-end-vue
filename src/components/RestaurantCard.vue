@@ -16,7 +16,7 @@
             {{ restaurant.name }}
           </router-link>
         </p>
-        <span class="badge badge-secondary">{{
+        <span class="badge bg-secondary">{{
           restaurant.Category ? restaurant.Category.name : "No Category"
         }}</span>
         <p class="card-text text-truncate">
