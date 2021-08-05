@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import authorization from "./../apis/authorization";
+import authorizationAPI from "./../apis/authorization";
 import { Toast } from "./../utils/helpers";
 
 export default {
@@ -64,37 +64,41 @@ export default {
     };
   },
   methods: {
-    handleSubmit() {
-      if (!this.email || !this.password) {
-        Toast.fire({
-          icon: "warning",
-          title: "請填入 email 和 password",
-        });
-        return;
-      }
-      this.isProcessing = true;
-      authorization
-        .signIn({
-          email: this.email,
-          password: this.password,
-        })
-        .then((response) => {
-          const { data } = response;
-          if (data.status !== "success") {
-            throw new Error(data.message);
-          }
-          localStorage.setItem("token", data.token);
-          this.$router.push("/restaurants");
-        })
-        .catch((error) => {
-          this.password = "";
+    async handleSubmit() {
+      try {
+        if (!this.email || !this.password) {
           Toast.fire({
             icon: "warning",
-            title: "請確認您輸入了正確的帳號密碼",
+            title: "請填入 email 和 password",
           });
-          this.isProcessing = false;
-          console.log("signin error", error);
+          return;
+        }
+
+        this.isProcessing = true;
+
+        const response = await authorizationAPI.signIn({
+          email: this.email,
+          password: this.password,
         });
+
+        const { data } = response;
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        localStorage.setItem("token", data.token);
+
+        this.$router.push("/restaurants");
+      } catch (error) {
+        this.password = "";
+        this.isProcessing = false;
+
+        Toast.fire({
+          icon: "warning",
+          title: "請確認您輸入了正確的帳號密碼",
+        });
+      }
     },
   },
 };
