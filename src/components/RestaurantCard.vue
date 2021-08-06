@@ -28,7 +28,7 @@
           type="button"
           class="btn btn-danger btn-border favorite me-2"
           v-if="restaurant.isFavorited"
-          @click.stop.prevent="deleteFavorite"
+          @click.stop.prevent="deleteFavorite(restaurant.id)"
         >
           移除最愛
         </button>
@@ -80,7 +80,6 @@ export default {
   methods: {
     async addFavorite(restaurantId) {
       try {
-        console.log("restaurantId", restaurantId);
         const { data } = await usersApi.addFavorite({ restaurantId });
 
         if (data.status !== "success") {
@@ -99,18 +98,26 @@ export default {
         console.log(error);
       }
     },
-    // addFavorite() {
-    //   this.restaurant = {
-    //     ...this.restaurant,
-    //     isFavorited: true,
-    //   };
-    // },
-    // deleteFavorite() {
-    //   this.restaurant = {
-    //     ...this.restaurant,
-    //     isFavorited: false,
-    //   };
-    // },
+    async deleteFavorite(restaurantId) {
+      try {
+        const { data } = await usersApi.deleteFavorite({ restaurantId });
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        this.restaurant = {
+          ...this.restaurant,
+          isFavorited: false,
+        };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法將餐廳移除最愛，請稍後再試",
+        });
+        console.log(error);
+      }
+    },
     addLike() {
       this.restaurant = {
         ...this.restaurant,
