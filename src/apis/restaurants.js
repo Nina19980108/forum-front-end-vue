@@ -1,8 +1,8 @@
 import { apiHelper } from "./../utils/helpers"
 const getToken = () => localStorage.getItem('token')
 export default {
-  getRestaurants({ queryPage, queryCategoryId }) {
-    const searchParams = new URLSearchParams({ page: queryPage, categoryId: queryCategoryId })
+  getRestaurants({ page, categoryId }) {
+    const searchParams = new URLSearchParams({ page, categoryId })
     return apiHelper.get(`/restaurants?${searchParams.toString()}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })

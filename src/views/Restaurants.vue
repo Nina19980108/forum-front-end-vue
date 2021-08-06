@@ -58,8 +58,8 @@ export default {
     async fetchRestaurants({ queryPage, queryCategoryId }) {
       try {
         const response = await restaurantsAPI.getRestaurants({
-          queryPage,
-          queryCategoryId,
+          page: queryPage,
+          categoryId: queryCategoryId,
         });
         const {
           restaurants,
