@@ -36,7 +36,7 @@
           type="button"
           class="btn btn-primary btn-border favorite me-2"
           v-else
-          @click.stop.prevent="addFavorite"
+          @click.stop.prevent="addFavorite(restaurant.id)"
         >
           加到最愛
         </button>
@@ -62,6 +62,9 @@
 </template>
 
 <script>
+import usersApi from "./../apis/users";
+import { Toast } from "./../utils/helpers";
+
 export default {
   props: {
     initialRestaurant: {
@@ -75,18 +78,39 @@ export default {
     };
   },
   methods: {
-    addFavorite() {
-      this.restaurant = {
-        ...this.restaurant,
-        isFavorited: true,
-      };
+    async addFavorite(restaurantId) {
+      try {
+        console.log("restaurantId", restaurantId);
+        const { data } = await usersApi.addFavorite({ restaurantId });
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        this.restaurant = {
+          ...this.restaurant,
+          isFavorited: true,
+        };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法將餐廳加入最愛，請稍後再試",
+        });
+        console.log(error);
+      }
     },
-    deleteFavorite() {
-      this.restaurant = {
-        ...this.restaurant,
-        isFavorited: false,
-      };
-    },
+    // addFavorite() {
+    //   this.restaurant = {
+    //     ...this.restaurant,
+    //     isFavorited: true,
+    //   };
+    // },
+    // deleteFavorite() {
+    //   this.restaurant = {
+    //     ...this.restaurant,
+    //     isFavorited: false,
+    //   };
+    // },
     addLike() {
       this.restaurant = {
         ...this.restaurant,
