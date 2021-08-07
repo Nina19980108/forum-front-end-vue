@@ -44,7 +44,7 @@
           type="button"
           class="btn btn-danger like me-2"
           v-if="restaurant.isLiked"
-          @click.stop.prevent="deleteLike"
+          @click.stop.prevent="deleteLike(restaurant.id)"
         >
           Unlike
         </button>
@@ -135,17 +135,22 @@ export default {
         });
       }
     },
-    // addLike() {
-    //   this.restaurant = {
-    //     ...this.restaurant,
-    //     isLiked: true,
-    //   };
-    // },
-    deleteLike() {
-      this.restaurant = {
-        ...this.restaurant,
-        isLiked: false,
-      };
+    async deleteLike(restaurantId) {
+      try {
+        const { data } = await usersApi.deleteLike({ restaurantId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.restaurant = {
+          ...this.restaurant,
+          isLiked: false,
+        };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法將餐廳移除喜歡，請稍後再試",
+        });
+      }
     },
   },
 };
