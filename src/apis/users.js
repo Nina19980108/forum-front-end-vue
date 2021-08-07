@@ -25,5 +25,13 @@ export default {
     return apiHelper.get('/users/top', {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
+  },
+  addFollowing({ userId }) {
+    return apiHelper.post(`/following/${userId}`, null, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
   }
 }
+
+// router.post('/following/:userId', authenticated, userController.addFollowing)
+// router.delete('/following/:userId', authenticated, userController.removeFollowing)
