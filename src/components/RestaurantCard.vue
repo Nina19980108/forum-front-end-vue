@@ -52,7 +52,7 @@
           type="button"
           class="btn btn-primary like me-2"
           v-else
-          @click.stop.prevent="addLike"
+          @click.stop.prevent="addLike(restaurant.id)"
         >
           Like
         </button>
@@ -118,12 +118,29 @@ export default {
         console.log(error);
       }
     },
-    addLike() {
-      this.restaurant = {
-        ...this.restaurant,
-        isLiked: true,
-      };
+    async addLike(restaurantId) {
+      try {
+        const { data } = await usersApi.addLike({ restaurantId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.restaurant = {
+          ...this.restaurant,
+          isLiked: true,
+        };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法將餐廳加入喜歡，請稍後再試",
+        });
+      }
     },
+    // addLike() {
+    //   this.restaurant = {
+    //     ...this.restaurant,
+    //     isLiked: true,
+    //   };
+    // },
     deleteLike() {
       this.restaurant = {
         ...this.restaurant,

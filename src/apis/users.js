@@ -10,5 +10,10 @@ export default {
     return apiHelper.delete(`/favorite/${restaurantId}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-  }
+  },
+  addLike({ restaurantId }) {
+    return apiHelper.post(`/like/${restaurantId}`, null, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
 }
