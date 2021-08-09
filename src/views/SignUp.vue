@@ -63,7 +63,11 @@
         />
       </div>
 
-      <button class="btn btn-lg btn-primary d-block mb-3" type="submit">
+      <button
+        class="btn btn-lg btn-primary d-block mb-3"
+        type="submit"
+        :disabled="isProcessing"
+      >
         Submit
       </button>
 
@@ -79,6 +83,8 @@
 </template>
 
 <script>
+import authorizationAPI from "./../apis/authorization";
+import { Toast } from "../utils/helpers";
 export default {
   data() {
     return {
@@ -86,17 +92,55 @@ export default {
       email: "",
       password: "",
       passwordCheck: "",
+      isProcessing: false,
     };
   },
   methods: {
-    handleSubmit() {
-      const data = JSON.stringify({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        passwordCheck: this.passwordCheck,
-      });
-      console.log("data", data);
+    async handleSubmit() {
+      try {
+        this.isProcessing = true;
+        const newUser = {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          passwordCheck: this.passwordCheck,
+        };
+        if (
+          !newUser.name ||
+          !newUser.email ||
+          !newUser.password ||
+          !newUser.passwordCheck
+        ) {
+          Toast.fire({
+            icon: "error",
+            title: "每個欄位都是必填",
+          });
+          return;
+        }
+        if (newUser.password !== newUser.passwordCheck) {
+          Toast.fire({
+            icon: "error",
+            title: "請確認 password 與 password Check 相同",
+          });
+          return;
+        }
+        const { data } = await authorizationAPI.signUp({
+          name: newUser.name,
+          email: newUser.email,
+          password: newUser.password,
+          passwordCheck: newUser.passwordCheck,
+        });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.$router.push({ name: "sign-in" });
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "無法使用註冊功能，請稍後再試",
+        });
+      }
     },
   },
 };
