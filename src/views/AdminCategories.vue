@@ -71,6 +71,7 @@
               @click.stop.prevent="
                 updateCategory({ categoryId: category.id, name: category.name })
               "
+              :disabled="category.isSaving"
             >
               Save
             </button>
@@ -113,6 +114,7 @@ export default {
         this.categories = data.categories.map((category) => ({
           ...category,
           isEditing: false,
+          isSaving: false,
           nameCached: "",
         }));
       } catch (error) {
@@ -164,9 +166,22 @@ export default {
         return category;
       });
     },
-    updateCategory({ categoryId, name }) {
-      console.log(name);
-      this.toggleIsEditing(categoryId);
+    async updateCategory({ categoryId, name }) {
+      try {
+        this.categories = await this.waitSaving(categoryId);
+        const { data } = await adminAPI.categories.update({ categoryId, name });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.toggleIsEditing(categoryId);
+        this.categories = await this.finishSaving(categoryId);
+      } catch (error) {
+        this.categories = await this.finishSaving(categoryId);
+        Toast.fire({
+          icon: "error",
+          title: "無法修改餐廳分類，請稍後再試",
+        });
+      }
     },
     handleCancel(categoryId) {
       this.categories = this.categories.map((category) => {
@@ -179,6 +194,28 @@ export default {
         return category;
       });
       this.toggleIsEditing(categoryId);
+    },
+    waitSaving(categoryId) {
+      return this.categories.map((category) => {
+        if (category.id === categoryId) {
+          return {
+            ...category,
+            isSaving: true,
+          };
+        }
+        return category;
+      });
+    },
+    finishSaving(categoryId) {
+      return this.categories.map((category) => {
+        if (category.id === categoryId) {
+          return {
+            ...category,
+            isSaving: false,
+          };
+        }
+        return category;
+      });
     },
   },
 };
