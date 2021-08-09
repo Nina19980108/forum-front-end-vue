@@ -90,7 +90,6 @@
 
 <script>
 import AdminNav from "@/components/AdminNav";
-import { v4 as uuidv4 } from "uuid";
 import adminAPI from "./../apis/admin";
 import { Toast } from "./../utils/helpers";
 
@@ -98,14 +97,12 @@ export default {
   components: {
     AdminNav,
   },
-  // 3. 定義 Vue 中使用的 data 資料
   data() {
     return {
       categories: [],
       newCategoryName: "",
     };
   },
-  // 5. 調用 `fetchCategories` 方法
   created() {
     this.fetchCategories();
   },
@@ -125,12 +122,30 @@ export default {
         });
       }
     },
-    createCategory() {
-      this.categories.push({
-        id: uuidv4(),
-        name: this.newCategoryName,
-      });
-      this.newCategoryName = "";
+    async createCategory() {
+      try {
+        if (!this.newCategoryName.trim()) {
+          Toast.fire({
+            icon: "error",
+            title: "請填入新的餐廳分類名稱",
+          });
+          return;
+        }
+        const { data } = await adminAPI.categories.create({
+          name: this.newCategoryName,
+        });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.newCategoryName = "";
+        this.fetchCategories();
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法新增餐廳分類，請稍後再試",
+        });
+      }
     },
     deleteCategory(categoryId) {
       this.categories = this.categories.filter(
