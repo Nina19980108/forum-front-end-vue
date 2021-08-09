@@ -9,29 +9,8 @@
 
 <script>
 import AdminRestaurantForm from "./../components/AdminRestaurantForm.vue";
-
-const dummyData = {
-  restaurant: {
-    id: 1,
-    name: "Laurence Reynolds",
-    tel: "1-657-067-3756 x9782",
-    address: "187 Kirlin Squares",
-    opening_hours: "08:00",
-    description: "sit est mollitia",
-    image:
-      "https://loremflickr.com/320/240/restaurant,food/?random=91.29816290184887",
-    viewCounts: 1,
-    createdAt: "2019-07-30T16:24:55.432Z",
-    updatedAt: "2019-07-30T17:26:43.260Z",
-    CategoryId: 3,
-    Category: {
-      id: 3,
-      name: "義大利料理",
-      createdAt: "2019-07-30T16:24:55.429Z",
-      updatedAt: "2019-07-30T16:24:55.429Z",
-    },
-  },
-};
+import adminAPI from "./../apis/admin";
+import { Toast } from "./../utils/helpers";
 
 export default {
   data() {
@@ -56,20 +35,27 @@ export default {
     AdminRestaurantForm,
   },
   methods: {
-    fetchRestaurant(restaurantId) {
-      console.log("fetchRestaurant id:", restaurantId);
-      const { restaurant } = dummyData;
-      this.restaurant = {
-        ...this.restaurant,
-        id: restaurant.id,
-        name: restaurant.name,
-        categoryId: restaurant.CategoryId,
-        tel: restaurant.tel,
-        address: restaurant.address,
-        description: restaurant.description,
-        image: restaurant.image,
-        openingHours: restaurant.opening_hours,
-      };
+    async fetchRestaurant(restaurantId) {
+      try {
+        const { data } = await adminAPI.restaurants.getDetail({ restaurantId });
+        const { restaurant } = data;
+        this.restaurant = {
+          ...this.restaurant,
+          id: restaurant.id,
+          name: restaurant.name,
+          categoryId: restaurant.CategoryId,
+          tel: restaurant.tel,
+          address: restaurant.address,
+          description: restaurant.description,
+          image: restaurant.image,
+          openingHours: restaurant.opening_hours,
+        };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得餐廳資料，請稍後再試",
+        });
+      }
     },
     handleAfterSubmit(formData) {
       // 透過 API 將表單資料送到伺服器
