@@ -33,6 +33,11 @@ export default {
     const { id } = this.$route.params;
     this.fetchRestaurant(id);
   },
+  beforeRouteUpdate(to, from, next) {
+    const { id } = to.params;
+    this.fetchRestaurant(id);
+    next();
+  },
   components: {
     AdminRestaurantForm,
   },
