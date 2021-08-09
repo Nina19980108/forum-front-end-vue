@@ -18,6 +18,11 @@ export default {
       return apiHelper.get('/admin/restaurants', {
         headers: { Authorization: `Bearer ${getToken()}` }
       })
+    },
+    delete({ restaurantId }) {
+      return apiHelper.delete(`/admin/restaurants/${restaurantId}`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
     }
   }
 }

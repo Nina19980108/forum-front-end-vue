@@ -35,6 +35,7 @@
             type="button"
             class="btn btn-link"
             @click.stop.prevent="deleteRestaurant(restaurant.id)"
+            :disabled="isProccesingDelete"
           >
             Delete
           </button>
@@ -52,6 +53,7 @@ export default {
   data() {
     return {
       restaurants: [],
+      isProccesingDelete: false,
     };
   },
   created() {
@@ -69,10 +71,22 @@ export default {
         });
       }
     },
-    deleteRestaurant(restaurantId) {
-      this.restaurants = this.restaurants.filter(
-        (restaurant) => restaurant.id !== restaurantId
-      );
+    async deleteRestaurant(restaurantId) {
+      try {
+        this.isProccesingDelete = true;
+        const { data } = await adminAPI.restaurants.delete({ restaurantId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.fetchRestaurants();
+        this.isProccesingDelete = false;
+      } catch (error) {
+        this.isProccesingDelete = false;
+        Toast.fire({
+          icon: "error",
+          title: "無法刪除餐廳，請稍後再試",
+        });
+      }
     },
   },
 };
