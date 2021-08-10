@@ -92,10 +92,19 @@ export default {
         });
       }
     },
-    afterDeleteBtn(commentId) {
-      this.restaurantComments = this.restaurantComments.filter(
-        (comment) => comment.id !== commentId
-      );
+    async afterDeleteBtn(commentId) {
+      try {
+        const { data } = await restaurantsAPI.deleteComment({ commentId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.fetchRestaurant(data.RestaurantId);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法刪除評論，請稍後再試",
+        });
+      }
     },
     async afterCreateComment(payload) {
       try {
