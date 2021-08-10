@@ -81,13 +81,15 @@ export default {
           password: this.password,
         });
 
-        const { data } = response;
+        const { data, statusText } = response;
 
-        if (data.status !== "success") {
+        if (statusText !== "OK" || data.status !== "success") {
           throw new Error(data.message);
         }
 
         localStorage.setItem("token", data.token);
+
+        this.$store.commit("setCurrentUser", data.user);
 
         this.$router.push("/restaurants");
       } catch (error) {
