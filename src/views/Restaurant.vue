@@ -97,19 +97,23 @@ export default {
         (comment) => comment.id !== commentId
       );
     },
-    afterCreateComment(payload) {
-      const { commentId, restaurantId, text } = payload;
-      this.restaurantComments.push({
-        id: commentId,
-        text,
-        RestaurantId: restaurantId,
-        createdAt: new Date(),
-        UserId: this.currentUser.id,
-        User: {
-          id: this.currentUser.id,
-          name: this.currentUser.name,
-        },
-      });
+    async afterCreateComment(payload) {
+      try {
+        const { restaurantId, text } = payload;
+        const { data } = await restaurantsAPI.createComment({
+          restaurantId,
+          text,
+        });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.fetchRestaurant(restaurantId);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增評論，請稍後再試",
+        });
+      }
     },
   },
   components: {
