@@ -22,17 +22,8 @@ import RestaurantComment from "./../components/RestaurantComment.vue";
 import CreateComment from "./../components/CreateComment.vue";
 import restaurantsAPI from "./../apis/restaurants";
 import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex";
 
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: "管理者",
-    email: "root@example.com",
-    image: "https://i.pravatar.cc/300",
-    isAdmin: true,
-  },
-  isAuthenticated: true,
-};
 export default {
   data() {
     return {
@@ -49,7 +40,6 @@ export default {
         isLiked: false,
       },
       restaurantComments: [],
-      currentUser: dummyUser.currentUser,
     };
   },
   created() {
@@ -60,6 +50,9 @@ export default {
     const { id: restaurantId } = to.params;
     this.fetchRestaurant(restaurantId);
     next();
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
   methods: {
     async fetchRestaurant(restaurantId) {
