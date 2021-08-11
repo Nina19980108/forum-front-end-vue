@@ -31,5 +31,15 @@ export default {
     return apiHelper.delete(`/comments/${commentId}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
+  },
+  addFavorite({ restaurantId }) {
+    return apiHelper.post(`/favorite/${restaurantId}`, { restaurantId }, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  removeFavorite({ restaurantId }) {
+    return apiHelper.delete(`/favorite/${restaurantId}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
   }
 }
