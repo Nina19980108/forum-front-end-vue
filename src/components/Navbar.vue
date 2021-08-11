@@ -2,18 +2,33 @@
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/"> 餐廳評論網 </router-link>
+      <router-link class="text-white dropdown-menu-name" to="#">
+        {{ currentUser.name || "使用者" }} 您好
+      </router-link>
 
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon" />
-      </button>
+      <div class="btn-group" id="dropdown-menu">
+        <button
+          type="button"
+          class="btn btn-dark"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <span class="navbar-toggler-icon text-white" />
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li v-if="currentUser.isAdmin">
+            <router-link
+              :to="{ name: 'admin-restaurants' }"
+              class="text-dark dropdown-item"
+            >
+              管理員後台
+            </router-link>
+          </li>
+          <li v-if="isAuthenticated">
+            <button class="dropdown-item" type="button">登出</button>
+          </li>
+        </ul>
+      </div>
 
       <div id="navbarSupportedContent">
         <div class="ml-auto d-flex align-items-center">
@@ -53,3 +68,17 @@ export default {
   },
 };
 </script>
+
+<style>
+@media screen and (max-width: 900px) {
+  #navbarSupportedContent {
+    display: none;
+  }
+}
+@media screen and (min-width: 900px) {
+  #dropdown-menu,
+  .dropdown-menu-name {
+    display: none;
+  }
+}
+</style>
