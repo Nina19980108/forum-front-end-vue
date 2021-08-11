@@ -40,5 +40,10 @@ export default {
     return apiHelper.post(`/following/${userId}`, null, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
+  },
+  deleteFollowing({ userId }) {
+    return apiHelper.delete(`/following/${userId}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
   }
 }
