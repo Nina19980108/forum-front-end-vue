@@ -1,4 +1,9 @@
-# forum-front-end-vue
+# 餐廳清單
+
+## 專案負責內容
+```
+僅負責以 vue 串接後端 API ，及修改部分 CSS。
+```
 
 ## Project setup
 ```
